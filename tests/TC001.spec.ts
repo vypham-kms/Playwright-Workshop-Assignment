@@ -4,7 +4,7 @@ test('Verify Checkboxes', async ({ page }) => {
   await page.goto('https://the-internet.herokuapp.com/');
   await page.getByRole('link', { name: 'Checkboxes' }).click();
 
-  const header = await page.locator('h3');
+  const header = page.locator('h3');
   await expect(header).toHaveText('Checkboxes');
   await page.getByRole('checkbox').first().check();
   await page.getByRole('checkbox').nth(1).uncheck();

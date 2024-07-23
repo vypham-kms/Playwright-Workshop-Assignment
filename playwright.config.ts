@@ -21,13 +21,15 @@ export default defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  reporter: [['list'], ['allure-playwright']],
   timeout: 50000,
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: { 
-    video: 'on',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://127.0.0.1:3000',
+    baseURL : 'https://the-internet.herokuapp.com/',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -35,19 +37,25 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
-    {
-      name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-    },
+    // {
+    //   name: 'chromium',
+    //   use: { ...devices['Desktop Chrome'] },
+    // },
 
     {
       name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
+      use: { ...devices['Desktop Firefox'],
+      viewport: { width: 1366, height: 768 },
+      video: 'on',
+      },
     },
 
     {
       name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
+      use: { ...devices['Desktop Safari'], 
+        viewport: { width: 1920, height: 1080 },
+        video: 'on',  
+      },
     },
 
     /* Test against mobile viewports. */
@@ -63,11 +71,15 @@ export default defineConfig({
     /* Test against branded browsers. */
      {
        name: 'edge',
-       use: { ...devices['Desktop Edge'], channel: 'msedge' },
+       use: { ...devices['Desktop Edge'], channel: 'msedge' ,
+       viewport: { width: 1366, height: 768 },
+       },
      },
      {
        name: 'chrome',
-       use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+       use: { 
+        ...devices['Desktop Chrome'], channel: 'chrome', 
+        viewport: {width:1920, height: 1080}},
      },
   ],
 
