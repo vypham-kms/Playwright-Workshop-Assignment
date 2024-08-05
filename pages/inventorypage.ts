@@ -12,7 +12,6 @@ export class inventoryPage {
       this.firstItemAddToCartButton = page.locator('#add-to-cart-sauce-labs-backpack');
       this.shoppingCartButton = page.locator('.shopping_cart_link');
     }
-
     async getPageTitle() {
         return this.pageTitle.textContent();
     }
@@ -20,7 +19,6 @@ export class inventoryPage {
     async validatePageTitle() {
         const title = await this.getPageTitle();
         expect(title).toBe('Products');
-        await this.pageTitle.waitFor({ state: 'visible' });
     }
 
     async addItemToCart() {
